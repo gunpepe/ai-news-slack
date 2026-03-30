@@ -2,10 +2,10 @@ import feedparser
 import yaml
 from pathlib import Path
 
-ROOT_DIR = Path(__file__).resolve().parent.parent
-SOURCES_FILE = ROOT_DIR / "config" / "sources.yml"
+SOURCES_FILE = Path("config/sources.yml")
 
 def load_sources():
+    print("Looking for sources file at:", SOURCES_FILE.resolve())
     with open(SOURCES_FILE, "r", encoding="utf-8") as f:
         return yaml.safe_load(f)
 
