@@ -1,2 +1,16 @@
-Current Date and Time (UTC - YYYY-MM-DD HH:MM:SS formatted): 2026-03-30 19:10:48
-Current User's Login: gunpepe
+- name: TechCrunch AI
+  url: https://techcrunch.com/tag/ai/feed/
+  language: en
+
+- name: VentureBeat AI
+  url: https://venturebeat.com/category/ai/feed/
+  language: en
+
+- name: ITmedia AI
+  url: https://www.itmedia.co.jp/rss/2.0/ait.xml
+  language: ja
+
+- name: Publickey
+  url: https://www.publickey1.jp/atom.xml
+  language: ja
+``
