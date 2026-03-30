@@ -1,1 +1,18 @@
+# === English sources ===
+- name: TechCrunch AI
+  url: https://techcrunch.com/tag/ai/feed/
+  language: en
 
+- name: VentureBeat AI
+  url: https://venturebeat.com/category/ai/feed/
+  language: en
+
+# === Japanese sources ===
+- name: ITmedia AI
+  url: https://www.itmedia.co.jp/rss/2.0/ait.xml
+  language: ja
+
+- name: Publickey
+  url: https://www.publickey1.jp/atom.xml
+  language: ja
+``
