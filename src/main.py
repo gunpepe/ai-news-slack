@@ -35,21 +35,24 @@ def call_gemini(article_title, article_content):
 {article_content}
 """
 
-    url = (
-        "https://generativelanguage.googleapis.com/v1beta/models/"
-        f"gemini-1.5-flash:generateContent?key={GEMINI_API_KEY}"
-    )
+ url = (
+    "https://generativelanguage.googleapis.com/v1beta/models/"
+    f"gemini-1.0-pro-001:generateContent?key={GEMINI_API_KEY}"
+)
+``
 
-    payload = {
-        "contents": [
-            {
-                "role": "user",
-                "parts": [
-                    {"text": prompt}
-                ]
-            }
-        ]
+payload = {
+    "contents": [
+        {
+            "role": "user",
+            "parts": [{"text": prompt}]
+        }
+    ],
+    "generationConfig": {
+        "temperature": 0.4,
+        "maxOutputTokens": 512
     }
+}
 
     req = urllib.request.Request(
         url,
