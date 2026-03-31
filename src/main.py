@@ -5,11 +5,10 @@ import yaml
 import urllib.request
 from pathlib import Path
 
-# ===== 設定 =====
 SOURCES_FILE = Path("config/sources.yml")
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 
-# ===== Gemini 呼び出し =====
+
 def call_gemini(article_title, article_content):
     prompt = f"""
 以下の記事をチーム向け日次レポート用に処理してください。
@@ -35,24 +34,23 @@ def call_gemini(article_title, article_content):
 {article_content}
 """
 
- url = (
-    "https://generativelanguage.googleapis.com/v1beta/models/"
-    f"gemini-1.0-pro-001:generateContent?key={GEMINI_API_KEY}"
-)
-``
+    url = (
+        "https://generativelanguage.googleapis.com/v1beta/models/"
+        f"gemini-1.0-pro-001:generateContent?key={GEMINI_API_KEY}"
+    )
 
-payload = {
-    "contents": [
-        {
-            "role": "user",
-            "parts": [{"text": prompt}]
+    payload = {
+        "contents": [
+            {
+                "role": "user",
+                "parts": [{"text": prompt}]
+            }
+        ],
+        "generationConfig": {
+            "temperature": 0.4,
+            "maxOutputTokens": 512
         }
-    ],
-    "generationConfig": {
-        "temperature": 0.4,
-        "maxOutputTokens": 512
     }
-}
 
     req = urllib.request.Request(
         url,
@@ -64,7 +62,8 @@ payload = {
         data = json.loads(res.read().decode("utf-8"))
 
     return data["candidates"][0]["content"]["parts"][0]["text"]
-# ===== main =====
+
+
 def main():
     print("=== AI News Bot: STEP 8-1 ===")
 
@@ -81,5 +80,7 @@ def main():
     print("\nAI Result:")
     print(result)
 
+
 if __name__ == "__main__":
     main()
+``
