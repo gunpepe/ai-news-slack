@@ -12,7 +12,7 @@ def call_gemini(article_title, article_content):
     """
     Gemini APIを使って翻訳・要約・分類を行う
     """
-    prompt = f"""
+   prompt = f"""
 以下の記事をチーム向け日次レポート用に処理してください。
 
 条件：
@@ -35,7 +35,7 @@ def call_gemini(article_title, article_content):
 記事本文：
 {article_content}
 """
-
+``
     url = (
         "https://generativelanguage.googleapis.com/v1beta/models/"
         f"gemini-1.5-flash:generateContent?key={GEMINI_API_KEY}"
