@@ -3,6 +3,7 @@ import json
 import feedparser
 import yaml
 import urllib.request
+import urllib.error
 from pathlib import Path
 
 SOURCES_FILE = Path("config/sources.yml")
@@ -33,9 +34,10 @@ def call_gemini(article_title, article_content):
 {article_content}
 """
 
+    # 正しいエンドポイント
     url = (
         "https://generativelanguage.googleapis.com/v1beta/models/"
-        f"gemini-1.0-pro-001:generateContent?key={GEMINI_API_KEY}"
+        f"gemini-1.5-flash:generateContent?key={GEMINI_API_KEY}"
     )
 
     payload = {
@@ -54,7 +56,9 @@ def call_gemini(article_title, article_content):
     req = urllib.request.Request(
         url,
         data=json.dumps(payload).encode("utf-8"),
-        headers={"Content-Type": "application/json"},
+        headers={
+            "Content-Type": "application/json",
+        },
     )
 
     try:
@@ -62,12 +66,12 @@ def call_gemini(article_title, article_content):
             data = json.loads(res.read().decode("utf-8"))
         return data["candidates"][0]["content"]["parts"][0]["text"]
     except urllib.error.HTTPError as e:
-        print(f"HTTPError: {e.code} - {e.reason}")
-        print(f"Response: {e.read().decode('utf-8')}")
+        error_response = e.read().decode('utf-8')
+        print(f"[ERROR] HTTP {e.code}: {e.reason}")
+        print(f"[ERROR] Response: {error_response}")
         raise
-    except KeyError as e:
-        print(f"KeyError: {e}")
-        print(f"Response data: {data}")
+    except Exception as e:
+        print(f"[ERROR] {type(e).__name__}: {e}")
         raise
 
 def main():
