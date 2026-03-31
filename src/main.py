@@ -40,9 +40,16 @@ def call_gemini(article_title, article_content):
         f"gemini-1.5-flash:generateContent?key={GEMINI_API_KEY}"
     )
 
-    payload = {
-        "contents": [{"parts": [{"text": prompt}]}]
-    }
+  payload = {
+    "contents": [
+        {
+            "role": "user",
+            "parts": [
+                {"text": prompt}
+            ]
+        }
+    ]
+}
 
     req = urllib.request.Request(
         url,
