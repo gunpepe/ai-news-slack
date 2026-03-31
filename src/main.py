@@ -40,16 +40,16 @@ def call_gemini(article_title, article_content):
         f"gemini-1.5-flash:generateContent?key={GEMINI_API_KEY}"
     )
 
-  payload = {
-    "contents": [
-        {
-            "role": "user",
-            "parts": [
-                {"text": prompt}
-            ]
-        }
-    ]
-}
+    payload = {
+        "contents": [
+            {
+                "role": "user",
+                "parts": [
+                    {"text": prompt}
+                ]
+            }
+        ]
+    }
 
     req = urllib.request.Request(
         url,
@@ -61,7 +61,6 @@ def call_gemini(article_title, article_content):
         data = json.loads(res.read().decode("utf-8"))
 
     return data["candidates"][0]["content"]["parts"][0]["text"]
-
 # ===== main =====
 def main():
     print("=== AI News Bot: STEP 8-1 ===")
