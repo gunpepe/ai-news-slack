@@ -1,17 +1,16 @@
-import feedparser
-import yaml
-from pathlib import Path
-
 import os
 import json
+import feedparser
+import yaml
 import urllib.request
+from pathlib import Path
 
+# ===== 設定 =====
+SOURCES_FILE = Path("config/sources.yml")
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 
+# ===== Gemini 呼び出し =====
 def call_gemini(article_title, article_content):
-    """
-    Gemini APIを使って翻訳・要約・分類を行う
-    """
     prompt = f"""
 以下の記事をチーム向け日次レポート用に処理してください。
 
@@ -42,70 +41,36 @@ def call_gemini(article_title, article_content):
     )
 
     payload = {
-        "contents": [
-            {"parts": [{"text": prompt}]}
-        ]
+        "contents": [{"parts": [{"text": prompt}]}]
     }
 
     req = urllib.request.Request(
         url,
         data=json.dumps(payload).encode("utf-8"),
-        headers={"Content-Type": "application/json"}
+        headers={"Content-Type": "application/json"},
     )
 
     with urllib.request.urlopen(req) as res:
         data = json.loads(res.read().decode("utf-8"))
 
-    text = data["candidates"][0]["content"]["parts"][0]["text"]
-    return text
-``
+    return data["candidates"][0]["content"]["parts"][0]["text"]
 
-SOURCES_FILE = Path("config/sources.yml")
-
-def load_sources():
-    print("Looking for sources file at:", SOURCES_FILE.resolve())
-    with open(SOURCES_FILE, "r", encoding="utf-8") as f:
-        return yaml.safe_load(f)
-
+# ===== main =====
 def main():
-    print("=== AI News Bot: STEP 7 ===")
+    print("=== AI News Bot: STEP 8-1 ===")
 
-    sources = load_sources()
-    print(f"Loaded {len(sources)} sources")
+    with open(SOURCES_FILE, "r", encoding="utf-8") as f:
+        sources = yaml.safe_load(f)
 
-    total_entries = 0
+    source = sources[0]
+    feed = feedparser.parse(source["url"])
+    entry = feed.entries[0]
 
-    for source in sources:
-        name = source["name"]
-        url = source["url"]
-        language = source["language"]
+    print("--- Sending article to Gemini ---")
+    result = call_gemini(entry.title, entry.get("summary", ""))
 
-        print(f"\n--- Fetching: {name} ({language}) ---")
-        feed = feedparser.parse(url)
-
-        if not feed.entries:
-            print("No entries found.")
-            continue
-
-        print(f"Found {len(feed.entries)} entries")
-        total_entries += len(feed.entries)
-
-        # 最新1件だけログ表示
-        entry = feed.entries[0]print("\n--- Sending article to Gemini ---")
-        content = entry.get("summary", "")
-
-        ai_result = call_gemini(entry.title, content)
-        print("\nAI Result:")
-        print(ai_result)
-
-        break  # ← STEP 8-1 なので1件だけ
-
-        print("Latest:")
-        print("  Title:", entry.title)
-        print("  Link :", entry.link)
-
-    print("\n==============================")
-    print(f"Total articles fetched: {total_entries}")
+    print("\nAI Result:")
+    print(result)
 
 if __name__ == "__main__":
     main()
