@@ -8,7 +8,6 @@ from pathlib import Path
 SOURCES_FILE = Path("config/sources.yml")
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 
-
 def call_gemini(article_title, article_content):
     prompt = f"""
 以下の記事をチーム向け日次レポート用に処理してください。
@@ -17,7 +16,7 @@ def call_gemini(article_title, article_content):
 - 英語の場合は日本語に翻訳
 - 日本語で3行以内に要約
 - 次のカテゴリから1つ選択
-  新AIツール / 既存ツールのアップデート /
+  新AIツール / 既存ツールのアップデート / 
   OSS / 開発者向け / ビジネス・業界動向 / 規制・社会影響
 
 出力形式（JSON）：
@@ -36,7 +35,7 @@ def call_gemini(article_title, article_content):
 
     url = (
         "https://generativelanguage.googleapis.com/v1beta/models/"
-        f"gemini-1.0-pro-001:generateContent?key={GEMINI_API_KEY}"
+        f"gemini-1.0-pro-001:generateContent?key={{GEMINI_API_KEY}}"
     )
 
     payload = {
@@ -63,7 +62,6 @@ def call_gemini(article_title, article_content):
 
     return data["candidates"][0]["content"]["parts"][0]["text"]
 
-
 def main():
     print("=== AI News Bot: STEP 8-1 ===")
 
@@ -83,4 +81,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-``
