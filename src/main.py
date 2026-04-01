@@ -4,6 +4,7 @@ import json
 import os
 import re
 import sys
+import time
 from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
@@ -205,6 +206,7 @@ def main():
             processed.append(result)
         except Exception as e:
             print("[SKIP] " + str(e))
+        time.sleep(5)  # 無料枠レート制限対策 (15 RPM)
 
     print("[INFO] 処理済み記事数: " + str(len(processed)))
 
