@@ -101,6 +101,8 @@ def call_gemini(title, content, categories):
     }
 
     resp = requests.post(url, json=payload, timeout=30)
+    if not resp.ok:
+        print("[GEMINI ERROR] status=" + str(resp.status_code) + " body=" + resp.text[:500])
     resp.raise_for_status()
     data = resp.json()
     raw = data["candidates"][0]["content"]["parts"][0]["text"]
