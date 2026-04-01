@@ -2,7 +2,6 @@
 
 import json
 import os
-import re
 import sys
 import time
 from collections import defaultdict
@@ -96,7 +95,8 @@ def call_gemini(title, content, categories):
         ],
         "generationConfig": {
             "temperature": 0.4,
-            "maxOutputTokens": 512,
+            "maxOutputTokens": 1024,
+            "responseMimeType": "application/json",
         },
     }
 
@@ -106,13 +106,7 @@ def call_gemini(title, content, categories):
     resp.raise_for_status()
     data = resp.json()
     raw = data["candidates"][0]["content"]["parts"][0]["text"]
-
-    # コードフェンスを除去してJSONを抽出
-    cleaned = re.sub(r"```(?:json)?|```", "", raw).strip()
-    match = re.search(r"\{[\s\S]*\}", cleaned)
-    if not match:
-        raise ValueError("Gemini レスポンスにJSONが見つかりません: " + raw[:200])
-    return json.loads(match.group())
+    return json.loads(raw)
 
 
 # ---------------------------------------------------------------------------
