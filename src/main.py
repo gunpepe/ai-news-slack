@@ -87,7 +87,7 @@ def call_gemini(title, content, categories):
 
     url = (
         "https://generativelanguage.googleapis.com/v1beta/models/"
-        "gemini-2.0-flash:generateContent?key=" + GEMINI_API_KEY
+        "gemini-2.5-flash:generateContent?key=" + GEMINI_API_KEY
     )
 
     payload = {
@@ -208,7 +208,7 @@ def main():
             processed.append(result)
         except Exception as e:
             print("[SKIP] " + str(e))
-        time.sleep(5)  # 無料枠レート制限対策 (15 RPM)
+        time.sleep(13)  # 無料枠レート制限対策 (5 RPM = 最低12秒間隔)
 
     print("[INFO] 処理済み記事数: " + str(len(processed)))
 
