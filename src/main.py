@@ -86,7 +86,7 @@ def call_gemini(title, content, categories):
 
     url = (
         "https://generativelanguage.googleapis.com/v1beta/models/"
-        "gemini-1.0-pro-001:generateContent?key=" + GEMINI_API_KEY
+        "gemini-2.0-flash:generateContent?key=" + GEMINI_API_KEY
     )
 
     payload = {
