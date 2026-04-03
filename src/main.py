@@ -45,15 +45,18 @@ def load_config():
 
 def fetch_articles(sources):
     articles = []
+    per_source = max(1, MAX_ARTICLES // len(sources))  # ソースごとの上限
     for source in sources:
         if len(articles) >= MAX_ARTICLES:
             break
-        print(f"[FETCH] {source['name']}")
+        print("[FETCH] " + source["name"])
         try:
             feed = feedparser.parse(source["url"])
+            count = 0
             for entry in feed.entries:
-                if len(articles) >= MAX_ARTICLES:
+                if len(articles) >= MAX_ARTICLES or count >= per_source:
                     break
+                count += 1
                 articles.append({
                     "source": source["name"],
                     "title": entry.get("title", ""),

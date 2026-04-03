@@ -1,12 +1,46 @@
+# 海外メディア（最新AIツール・機能）
 - name: TechCrunch AI
   url: https://techcrunch.com/tag/ai/feed/
   language: en
+
+- name: The Verge AI
+  url: https://www.theverge.com/ai-artificial-intelligence/rss/index.xml
+  language: en
+
 - name: VentureBeat AI
   url: https://venturebeat.com/category/ai/feed/
   language: en
+
+# AI企業公式ブログ（一次情報）
+- name: OpenAI Blog
+  url: https://openai.com/blog/rss.xml
+  language: en
+
+- name: Anthropic Blog
+  url: https://www.anthropic.com/rss.xml
+  language: en
+
+- name: Google DeepMind Blog
+  url: https://deepmind.google/blog/rss.xml
+  language: en
+
+- name: Hugging Face Blog
+  url: https://huggingface.co/blog/feed.xml
+  language: en
+
+# 国内メディア（生成AI活用事例・日本語情報）
+- name: Ledge.ai
+  url: https://ledge.ai/feed/
+  language: ja
+
+- name: AINOW
+  url: https://ainow.ai/feed/
+  language: ja
+
 - name: ITmedia AI
   url: https://www.itmedia.co.jp/rss/2.0/ait.xml
   language: ja
+
 - name: Publickey
   url: https://www.publickey1.jp/atom.xml
   language: ja
